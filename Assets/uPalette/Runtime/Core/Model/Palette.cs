@@ -10,8 +10,22 @@ using uPalette.Runtime.Foundation.TinyRx.ObservableProperty;
 
 namespace uPalette.Runtime.Core.Model
 {
+    /// <summary>
+    /// Base marker interface for all Palette&lt;T&gt; types.
+    /// Used to unify palettes in generic wrappers.
+    /// </summary>
+    public interface IPalette
+    {
+        IReadOnlyObservableDictionary<string, Theme> Themes { get; }
+        IReadOnlyObservableProperty<Theme> ActiveTheme { get; }
+        void SetActiveTheme(string themeId);
+        bool HasTheme(string themeId);
+        int GetThemeOrder(string themeId);
+        void SetThemeOrder(string themeId, int index);
+    }
+    
     [Serializable]
-    public abstract class Palette<T> : ISerializationCallbackReceiver
+    public abstract class Palette<T> : ISerializationCallbackReceiver, IPalette
     {
         private const string DefaultThemeName = "Default";
 
@@ -45,6 +59,7 @@ namespace uPalette.Runtime.Core.Model
 
         private Dictionary<string, RemovedEntryInfo> _removedEntryInfos = new Dictionary<string, RemovedEntryInfo>();
         private Dictionary<string, RemovedThemeInfo> _removedThemeInfos = new Dictionary<string, RemovedThemeInfo>();
+        private IReadOnlyObservableDictionary<string, object> _entries1;
 
         protected Palette()
         {
@@ -59,6 +74,14 @@ namespace uPalette.Runtime.Core.Model
         public IReadOnlyObservableProperty<Theme> ActiveTheme => _activeTheme;
         public IReadOnlyObservableDictionary<string, Theme> Themes => _themes;
         public IReadOnlyObservableDictionary<string, Entry<T>> Entries => _entries;
+        
+        IReadOnlyObservableProperty<Theme> IPalette.ActiveTheme => ActiveTheme;
+        IReadOnlyObservableDictionary<string, Theme> IPalette.Themes => Themes;
+
+        void IPalette.SetActiveTheme(string themeId) => SetActiveTheme(themeId);
+        bool IPalette.HasTheme(string themeId) => HasTheme(themeId);
+        int IPalette.GetThemeOrder(string themeId) => GetThemeOrder(themeId);
+        void IPalette.SetThemeOrder(string themeId, int index) => SetThemeOrder(themeId, index);
 
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
