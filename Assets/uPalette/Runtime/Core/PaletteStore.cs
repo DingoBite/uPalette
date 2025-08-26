@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 using uPalette.Runtime.Core.Model;
 using uPalette.Runtime.Foundation.CharacterStyles;
 using Object = UnityEngine.Object;
@@ -28,6 +29,8 @@ namespace uPalette.Runtime.Core
         public Palette<CharacterStyle> CharacterStylePalette => _characterStylePalette;
         public Palette<CharacterStyleTMP> CharacterStyleTMPPalette => _characterStyleTMPPalette;
         public Palette<float> FloatPalette => _floatPalette;
+
+        public List<IPalette> Palettes => new() { _colorPalette, _floatPalette, _gradientPalette, _characterStylePalette, _characterStyleTMPPalette};
 
         public MissingEntryErrorLevel MissingEntryErrorLevel
         {
