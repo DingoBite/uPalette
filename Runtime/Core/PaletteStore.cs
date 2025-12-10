@@ -22,6 +22,7 @@ namespace uPalette.Runtime.Core
         [SerializeField] private CharacterStylePalette _characterStylePalette = new CharacterStylePalette();
         [SerializeField] private CharacterStyleTMPPalette _characterStyleTMPPalette = new CharacterStyleTMPPalette();
         [SerializeField] private FloatPalette _floatPalette = new FloatPalette();
+        [SerializeField] private UnityObjectPalette _unityObjectPalette = new UnityObjectPalette();
         [SerializeField] private MissingEntryErrorLevel _missingEntryErrorLevel = MissingEntryErrorLevel.Warning;
 
         public Palette<Color> ColorPalette => _colorPalette;
@@ -29,8 +30,9 @@ namespace uPalette.Runtime.Core
         public Palette<CharacterStyle> CharacterStylePalette => _characterStylePalette;
         public Palette<CharacterStyleTMP> CharacterStyleTMPPalette => _characterStyleTMPPalette;
         public Palette<float> FloatPalette => _floatPalette;
+        public Palette<Object> UnityObjectPalette => _unityObjectPalette;
 
-        public List<IPalette> Palettes => new() { _colorPalette, _floatPalette, _gradientPalette, _characterStylePalette, _characterStyleTMPPalette};
+        public List<IPalette> Palettes => new() { _colorPalette, _floatPalette, _gradientPalette, _characterStylePalette, _characterStyleTMPPalette, _unityObjectPalette };
 
         public MissingEntryErrorLevel MissingEntryErrorLevel
         {

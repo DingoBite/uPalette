@@ -12,4 +12,5 @@ namespace uPalette.Editor.Core.PaletteEditor
             return new FloatPaletteEditorTreeView(state);
         }
     }
+    
 }

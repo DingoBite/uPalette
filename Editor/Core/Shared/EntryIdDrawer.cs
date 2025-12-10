@@ -5,6 +5,7 @@ using UnityEngine;
 using uPalette.Runtime.Core;
 using uPalette.Runtime.Core.Model;
 using uPalette.Runtime.Foundation.CharacterStyles;
+using Object = UnityEngine.Object;
 
 namespace uPalette.Editor.Core.Shared
 {
@@ -50,6 +51,15 @@ namespace uPalette.Editor.Core.Shared
         protected override Palette<float> GetPalette(PaletteStore store)
         {
             return store.FloatPalette;
+        }
+    }
+    
+    [CustomPropertyDrawer(typeof(UnityObjectEntryId))]
+    internal sealed class UnityObjectEntryIdDrawer : EntryIdDrawer<Object>
+    {
+        protected override Palette<Object> GetPalette(PaletteStore store)
+        {
+            return store.UnityObjectPalette;
         }
     }
 

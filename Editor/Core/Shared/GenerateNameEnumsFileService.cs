@@ -63,6 +63,8 @@ namespace uPalette.Editor.Core.Shared
             input.PaletteDataList.Add(characterStyleTMPPaletteData);
             var floatPaletteData = CreatePaletteData("Float", store.FloatPalette);
             input.PaletteDataList.Add(floatPaletteData);
+            var unityObjectPaletteData = CreatePaletteData("Unity Object", store.UnityObjectPalette);
+            input.PaletteDataList.Add(unityObjectPaletteData);
 
             return input;
         }

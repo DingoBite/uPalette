@@ -39,5 +39,9 @@ namespace uPalette.Runtime.Core
     public sealed class FloatEntryId : EntryId
     {
     }
-
+    
+    [Serializable]
+    public sealed class UnityObjectEntryId : EntryId
+    {
+    }
 }

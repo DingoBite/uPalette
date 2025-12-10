@@ -4,6 +4,7 @@ using uPalette.Editor.Core.Shared;
 using uPalette.Runtime.Core;
 using uPalette.Runtime.Foundation.CharacterStyles;
 using uPalette.Runtime.Foundation.TinyRx;
+using Object = UnityEngine.Object;
 
 namespace uPalette.Editor.Core.ThemeEditor
 {
@@ -20,6 +21,7 @@ namespace uPalette.Editor.Core.ThemeEditor
         private ThemeEditorWindowEmptyViewController _emptyViewController;
         private ThemeEditorWindowContentsViewController<Gradient> _gradientContentsViewController;
         private ThemeEditorWindowContentsViewController<float> _floatContentsViewController;
+        private ThemeEditorWindowContentsViewController<Object> _unityObjectContentsViewController;
 
         public ThemeEditorWindowController(PaletteStoreRepository storeRepository, UPaletteEditorGUIState guiState,
             ThemeEditorWindow view)
@@ -70,6 +72,7 @@ namespace uPalette.Editor.Core.ThemeEditor
             _characterStyleContentsViewController?.Dispose();
             _characterStyleTMPContentsViewController?.Dispose();
             _floatContentsViewController?.Dispose();
+            _unityObjectContentsViewController?.Dispose();
             _emptyViewController?.Dispose();
 
             _editService = new EditPaletteStoreService(store, new GenerateNameEnumsFileService(store));
@@ -88,6 +91,9 @@ namespace uPalette.Editor.Core.ThemeEditor
             _floatContentsViewController =
                 new ThemeEditorWindowContentsViewController<float>(store.FloatPalette,
                     _editService, view.FloatContentsView);
+            _unityObjectContentsViewController = 
+                new ThemeEditorWindowContentsViewController<Object>(store.UnityObjectPalette,
+                    _editService, view.UnityObjectContentsView);
 
             _activeContentsViewController = GetPerTypeController(_guiState.ActivePaletteType.Value);
         }
@@ -99,6 +105,7 @@ namespace uPalette.Editor.Core.ThemeEditor
             _characterStyleContentsViewController?.Dispose();
             _characterStyleTMPContentsViewController?.Dispose();
             _floatContentsViewController.Dispose();
+            _unityObjectContentsViewController.Dispose();
             _emptyViewController?.Dispose();
 
             _emptyViewController = new ThemeEditorWindowEmptyViewController(view.EmptyView);
@@ -126,6 +133,8 @@ namespace uPalette.Editor.Core.ThemeEditor
                     return _characterStyleTMPContentsViewController;
                 case PaletteType.Float:
                     return _floatContentsViewController;
+                case PaletteType.UnityObject:
+                    return _unityObjectContentsViewController;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
@@ -138,6 +147,7 @@ namespace uPalette.Editor.Core.ThemeEditor
             _characterStyleContentsViewController?.Dispose();
             _characterStyleTMPContentsViewController?.Dispose();
             _floatContentsViewController?.Dispose();
+            _unityObjectContentsViewController?.Dispose();
             _emptyViewController?.Dispose();
             _disposables.Dispose();
         }

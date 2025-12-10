@@ -6,6 +6,7 @@
         Gradient,
         CharacterStyle,
         CharacterStyleTMP,
-        Float
+        Float,
+        UnityObject
     }
 }

@@ -33,6 +33,9 @@ namespace uPalette.Editor.Core.PaletteEditor
 
         [SerializeField] private FloatPaletteEditorWindowContentsView _floatContentsView =
             new FloatPaletteEditorWindowContentsView();
+        
+        [SerializeField] private UnityObjectPaletteEditorWindowContentsView _unityObjectContentsView =
+            new UnityObjectPaletteEditorWindowContentsView();
 
         private readonly Subject<Empty> _createButtonClickedSubject = new Subject<Empty>();
         private readonly Subject<Empty> _removeShortcutExecutedSubject = new Subject<Empty>();
@@ -61,6 +64,7 @@ namespace uPalette.Editor.Core.PaletteEditor
         public CharacterStylePaletteEditorWindowContentsView CharacterStyleContentsView => _characterStyleContentsView;
         public CharacterStyleTMPPaletteEditorWindowContentsView CharacterStyleTMPContentsView => _characterStyleTMPContentsView;
         public FloatPaletteEditorWindowContentsView FloatContentsView => _floatContentsView;
+        public UnityObjectPaletteEditorWindowContentsView UnityObjectContentsView => _unityObjectContentsView;
         public PaletteEditorWindowEmptyView EmptyView => _emptyView;
 
         public void Reload()
@@ -72,6 +76,7 @@ namespace uPalette.Editor.Core.PaletteEditor
             _characterStyleContentsView.Setup();
             _characterStyleTMPContentsView.Setup();
             _floatContentsView.Setup();
+            _unityObjectContentsView.Setup();
             
             _application.SetupPaletteEditor(this);
         }
@@ -87,6 +92,7 @@ namespace uPalette.Editor.Core.PaletteEditor
             _characterStyleContentsView.Setup();
             _characterStyleTMPContentsView.Setup();
             _floatContentsView.Setup();
+            _unityObjectContentsView.Setup();
             
             _application.SetupPaletteEditor(this);
         }
@@ -135,6 +141,7 @@ namespace uPalette.Editor.Core.PaletteEditor
             _characterStyleContentsView.Dispose();
             _characterStyleTMPContentsView.Dispose();
             _floatContentsView.Dispose();
+            _unityObjectContentsView.Dispose();
             _emptyView.Dispose();
         }
 
@@ -234,6 +241,9 @@ namespace uPalette.Editor.Core.PaletteEditor
                     break;
                 case PaletteType.Float:
                     _activeWindowContentsView = _floatContentsView;
+                    break;
+                case PaletteType.UnityObject:
+                    _activeWindowContentsView = _unityObjectContentsView;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(paletteType), paletteType, null);

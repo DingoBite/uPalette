@@ -40,9 +40,11 @@ namespace uPalette.Editor.Core.Shared
                 store.ColorPalette.ClearRemovedEntries();
                 store.GradientPalette.ClearRemovedEntries();
                 store.FloatPalette.ClearRemovedEntries();
+                store.UnityObjectPalette.ClearRemovedEntries();
                 store.ColorPalette.ClearRemovedThemes();
                 store.GradientPalette.ClearRemovedThemes();
                 store.FloatPalette.ClearRemovedThemes();
+                store.UnityObjectPalette.ClearRemovedThemes();
             }
         }
 
