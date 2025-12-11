@@ -29,6 +29,10 @@ namespace uPalette.Runtime.Core.Model
     {
         private const string DefaultThemeName = "Default";
 
+        private static readonly Regex _folderRule = new Regex(
+            @"^\s*(?<name>.+?)\s*:\s*\[(?<folder>[^]]+)\]\s*!\s*(?<theme>.+?)\s*$", 
+            RegexOptions.Compiled);
+        
         private static readonly Regex _nonDuplicatedNameSuffixRegex = new Regex("_([0-9]+)");
 
         [SerializeField]
@@ -91,17 +95,7 @@ namespace uPalette.Runtime.Core.Model
         void ISerializationCallbackReceiver.OnAfterDeserialize()
         {
             _activeTheme = new ObservableProperty<Theme>(_themes[_activeThemeId]);
-            var activeThemeId = _activeTheme.Value.Id;
-
-            foreach (var entry in _entries.Values)
-            {
-                var value = entry.Values[activeThemeId];
-                var colorProperty = new ObservableProperty<T>();
-                _activeValues[entry.Id] = colorProperty;
-                value.Subscribe(x => { colorProperty.SetValueAndNotify(x); })
-                    .DisposeWith(_activeThemeDisposables);
-            }
-
+            PopulateActiveValues(true, _activeThemeId);
             SetActiveTheme(_activeTheme.Value.Id);
         }
 
@@ -134,17 +128,8 @@ namespace uPalette.Runtime.Core.Model
                 return;
 
             _activeThemeDisposables.Clear();
-
-            // Synchronize with active values.
-            foreach (var entry in _entries.Values)
-            {
-                var valueProperty = _activeValues[entry.Id];
-                entry.Values[themeId]
-                    .Subscribe(x => valueProperty.SetValueAndNotify(x))
-                    .DisposeWith(_activeThemeDisposables);
-            }
-
             var theme = _themes[themeId];
+            ResolveActiveValues(false, theme.Id, theme.Name.Value);
             _activeTheme.Value = theme;
         }
 
@@ -451,6 +436,88 @@ namespace uPalette.Runtime.Core.Model
 
                 processedNames.Add(name);
                 yield return (entry.Id, name);
+            }
+        }
+
+        private void ResolveActiveValues(bool createNew, string activeThemeId, string activeThemeName)
+        {
+            if (_activeTheme?.Value?.Name?.Value == null)
+                return;
+
+            var match = _folderRule.Match(activeThemeName);
+
+            if (match.Success)
+                PopulateActiveValuesByFolderRule(createNew, activeThemeId, activeThemeName);
+            else
+                PopulateActiveValues(createNew, activeThemeId);
+        }
+
+        private void PopulateActiveValuesByFolderRule(bool createNew, string activeThemeId, string activeThemeName)
+        {
+            if (!_folderRule.IsMatch(activeThemeName))
+            {
+                PopulateActiveValues(createNew, activeThemeId);
+                return;
+            }
+
+            var themes = _themes
+                .Where(p => p.Value != null)
+                .Select(p => p.Value);
+
+            var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            var getThemeForEntry = ThemeRuleHelper.BuildGetThemeForEntry(
+                activeThemeId,
+                activeThemeName,
+                themes,
+                _folderRule,
+                visited);
+
+            foreach (var entry in _entries.Values)
+            {
+                var themeId = getThemeForEntry(entry.Id, entry.Name.Value);
+
+                if (!entry.Values.TryGetValue(themeId, out var value))
+                    continue;
+
+                if (createNew)
+                {
+                    var property = new ObservableProperty<T>();
+                    _activeValues[entry.Id] = property;
+
+                    value.Subscribe(x => property.SetValueAndNotify(x))
+                        .DisposeWith(_activeThemeDisposables);
+                }
+                else
+                {
+                    if (!_activeValues.TryGetValue(entry.Id, out var valueProperty))
+                        continue;
+
+                    value.Subscribe(x => valueProperty.SetValueAndNotify(x))
+                        .DisposeWith(_activeThemeDisposables);
+                }
+            }
+        }
+
+        private void PopulateActiveValues(bool createNew, string activeThemeId)
+        {
+            foreach (var entry in _entries.Values)
+            {
+                var value = entry.Values[activeThemeId];
+                if (createNew)
+                {
+                    var property = new ObservableProperty<T>();
+                    _activeValues[entry.Id] = property;
+                    value.Subscribe(x => { property.SetValueAndNotify(x); })
+                        .DisposeWith(_activeThemeDisposables);
+                }
+                else
+                {
+                    var valueProperty = _activeValues[entry.Id];
+                    value
+                        .Subscribe(x => valueProperty.SetValueAndNotify(x))
+                        .DisposeWith(_activeThemeDisposables);
+                }
             }
         }
 

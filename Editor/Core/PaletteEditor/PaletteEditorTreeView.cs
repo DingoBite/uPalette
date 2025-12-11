@@ -490,7 +490,7 @@ namespace uPalette.Editor.Core.PaletteEditor
             foreach (var theme in _themes)
             {
                 var themeId = theme.Key;
-                var themeName = theme.Value;
+                var themeName = theme.Value.Split(':')[0];
                 var valueColumn = new MultiColumnHeaderState.Column
                 {
                     headerContent = new GUIContent(themeName),

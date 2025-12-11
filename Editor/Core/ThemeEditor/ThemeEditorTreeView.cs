@@ -226,7 +226,20 @@ namespace uPalette.Editor.Core.ThemeEditor
             var columns = new List<MultiColumnHeaderState.Column>();
             var nameColumn = new MultiColumnHeaderState.Column
             {
-                headerContent = new GUIContent("Name"),
+                headerContent = new GUIContent(
+                    "Name (hover tooltip)",
+                    "Examples:\n" +
+                    "Default – theme with the name \"Default\".\n" +
+                    "MIDDLE: [Folder1] ! Default – theme named \"MIDDLE\" with a rule: " +
+                    "if a style is inside \"Folder1\", use values from the current theme; " +
+                    "otherwise fall back to \"Default\".\n" +
+                    "TOP: [Folder2 | Folder3] ! MIDDLE – theme named \"TOP\" with a rule: " +
+                    "if a style is inside \"Folder2\" or \"Folder3\", use values from the current theme; " +
+                    "otherwise use the values from the \"MIDDLE\" theme (including its own rules).\n" +
+                    "\nAdditional example for localization:\n" +
+                    "LOC_EN: [UI/English] ! Default – applies English-specific overrides from \"UI/English\"; " +
+                    "if a style is outside that folder, the system falls back to the base \"Default\" theme."
+                ),
                 headerTextAlignment = TextAlignment.Center,
                 canSort = false,
                 width = 130,
