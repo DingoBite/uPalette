@@ -13,10 +13,13 @@ namespace uPalette.Runtime.Core.Synchronizer
     {
         private readonly CompositeDisposable _observingDisposables = new CompositeDisposable();
         public abstract EntryId EntryId { get; }
+        protected bool FromStartObserving { get; private set; }
 
         protected virtual void OnEnable()
         {
+            FromStartObserving = true;
             StartObserving();
+            FromStartObserving = false;
         }
 
         protected virtual void OnDisable()
