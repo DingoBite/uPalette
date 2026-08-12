@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEditor.IMGUI.Controls;
+using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
 using uPalette.Runtime.Foundation.TinyRx;
 using uPalette.Runtime.Foundation.TinyRx.ObservableCollection;
 using uPalette.Runtime.Foundation.TinyRx.ObservableProperty;

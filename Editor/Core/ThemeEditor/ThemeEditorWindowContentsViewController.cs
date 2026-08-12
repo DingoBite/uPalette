@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.IMGUI.Controls;
+using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
 using uPalette.Editor.Core.Shared;
 using uPalette.Editor.Foundation;
 using uPalette.Runtime.Core.Model;

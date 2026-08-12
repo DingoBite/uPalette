@@ -1,4 +1,5 @@
 using UnityEditor.IMGUI.Controls;
+using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
 
 namespace uPalette.Editor.Core.PaletteEditor
 {

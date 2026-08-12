@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using UnityEditor.IMGUI.Controls;
+using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
 using uPalette.Runtime.Foundation.TinyRx;
 
 namespace uPalette.Editor.Core.ThemeEditor

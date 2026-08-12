@@ -1,6 +1,8 @@
-﻿using System;
+using System;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
+using TreeView = UnityEditor.IMGUI.Controls.TreeView<int>;
+using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
 using UnityEngine;
 using uPalette.Editor.Foundation.EasyTreeView;
 using uPalette.Runtime.Foundation.TinyRx;

@@ -1,4 +1,5 @@
-﻿using UnityEditor.IMGUI.Controls;
+using UnityEditor.IMGUI.Controls;
+using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
 using UnityEngine;
 using uPalette.Runtime.Foundation.TinyRx.ObservableProperty;
 

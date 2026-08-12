@@ -1,4 +1,5 @@
-﻿using UnityEditor.IMGUI.Controls;
+using UnityEditor.IMGUI.Controls;
+using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
 using UnityEngine;
 using uPalette.Editor.Foundation.CharacterStyles;
 using uPalette.Runtime.Foundation.CharacterStyles;

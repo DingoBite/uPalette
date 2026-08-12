@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using UnityEditor.IMGUI.Controls;
+using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
 using uPalette.Runtime.Foundation.CharacterStyles;
 
 namespace uPalette.Editor.Core.PaletteEditor

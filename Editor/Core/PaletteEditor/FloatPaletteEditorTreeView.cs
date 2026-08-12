@@ -1,5 +1,6 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEditor.IMGUI.Controls;
+using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
 using UnityEngine;
 
 namespace uPalette.Editor.Core.PaletteEditor
